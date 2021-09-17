@@ -50,14 +50,14 @@ class Report(object):
         self.session = requests.session()
 
         self.urls = {
-            'csh': 'http://xgsm.hitsz.edu.cn/zhxy-xgzs/xg_mobile/xs/csh',
-            'get': 'http://xgsm.hitsz.edu.cn/zhxy-xgzs/xg_mobile/xs/getYqxx',
-            'sso': 'http://xgsm.hitsz.edu.cn/zhxy-xgzs/xg_mobile/shsj/common',
-            'uid': 'http://xgsm.hitsz.edu.cn/zhxy-xgzs/xg_mobile/xsHome/getGrxx',
-            'save': 'http://xgsm.hitsz.edu.cn/zhxy-xgzs/xg_mobile/xs/saveYqxx',
-            'check': 'http://xgsm.hitsz.edu.cn/zhxy-xgzs/xg_mobile/xs/getYqxxList',
+            'csh': 'https://xgsm.hitsz.edu.cn/zhxy-xgzs/xg_mobile/xs/csh',
+            'get': 'https://xgsm.hitsz.edu.cn/zhxy-xgzs/xg_mobile/xs/getYqxx',
+            'sso': 'https://xgsm.hitsz.edu.cn/zhxy-xgzs/xg_mobile/shsj/common',
+            'uid': 'https://xgsm.hitsz.edu.cn/zhxy-xgzs/xg_mobile/xsHome/getGrxx',
+            'save': 'https://xgsm.hitsz.edu.cn/zhxy-xgzs/xg_mobile/xs/saveYqxx',
+            'check': 'https://xgsm.hitsz.edu.cn/zhxy-xgzs/xg_mobile/xs/getYqxxList',
             'login': 'https://sso.hitsz.edu.cn:7002/cas/login;jsessionid={}?service='
-                     'http://xgsm.hitsz.edu.cn/zhxy-xgzs/common/casLogin?params=L3hnX21vYmlsZS94c0hvbWU=',
+                     'https://xgsm.hitsz.edu.cn/zhxy-xgzs/common/casLogin?params=L3hnX21vYmlsZS94c0hvbWU=',
         }
 
         self.keys = [
@@ -65,6 +65,7 @@ class Report(object):
             'dqszdsheng', 'dqszdshi', 'dqztbz', 'dqztm', 'gnxxdz', 'gpsxx', 'hwcs', 'hwgj', 'hwxxdz',
             'qtbgsx', 'sffwwhhb', 'sfjcqthbwhry', 'sfjcqthbwhrybz', 'sfjdwhhbry', 'sftjwhjhb', 'stzkm',
             'sftzrychbwhhl', 'tccx', 'tchbcc', 'tcjcms', 'tcjtfs', 'tcjtfsbz', 'tcyhbwhrysfjc', 'tczwh',
+            # 'gpswzxx'
         ]
 
     def start_new_session(self):
@@ -176,6 +177,9 @@ class Report(object):
         temperature = format(random.uniform(361, 368) / 10, '.1f')
         model = {key: data_orig[key] for key in self.keys}
         model |= {'id': module, 'brzgtw': temperature, 'sffwwhhb': self.graduating}
+        model |= {'gpswzxx': "广东省深圳市南山区桃源街道平山二路大园工业区北区"}
+        model |= {'stzkm': "01"} # 其他需要报告的事项
+        model |= {'dqztm': "01"} # 当前状态
         report_info = {'info': json.dumps({'model': model})}
         logging.info(f"生成上报信息成功。今日体温：{temperature}℃")
 
